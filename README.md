@@ -1,10 +1,10 @@
-# local-share
-LocalShare est un outil qui est là pour vous permettre de partager très facilement des fichiers sur votre réseau local.
+# localodo
+Localodo est un outil qui est là pour vous permettre de partager très facilement des fichiers sur votre réseau local.
 
 ## Installation et utilisation
 ```
-npm install localshare
-localshare
+npm install -g localodo
+localodo
 ```
 
 Le logiciel va automatiquement vous demander quelle est la bonne interface réseau à utiliser, si vous voulez ouvrir l'onglet dans le navigateur et afficher les dossiers de l'outil.
