@@ -14,9 +14,14 @@
 		<div class="wrapper">
 			<div class="content">
 				<h1>LocalShare</h1>
-				<p>Un serveur web a été lancé sur votre réseau local. Scannez le QRCode si dessous ou rendez-vous sur le lien pour accèder à vos fichiers.</p>
+				<p>Un serveur web a été lancé sur votre réseau local. Scannez le QRCode si dessous ou rendez-vous sur le lien pour accèder à vos fichiers ou pour en uploader.</p>
 		
-				<img id="qrcode" src="{{qrcode_url}}" atl="QRCode" />
+				<h2>Télécharger</h2>
+				<img id="qrcode" src="{{qrcode_download}}" atl="QRCode" />
+				<p id="addr"><a alt="Aller sur le partage de fichiers" href="{{download_addr}}">{{download_addr}}</a></p>
+
+				<h2>Partager</h2>
+				<img id="qrcode" src="{{qrcode_share}}" atl="QRCode" />
 				<p id="addr"><a alt="Aller sur le partage de fichiers" href="{{share_addr}}">{{share_addr}}</a></p>
 			</div>
 		</div>

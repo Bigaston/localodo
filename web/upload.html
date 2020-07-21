@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Local Share - Partager</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+		<link rel="stylesheet" href="/static/style.css">
+		<link rel="stylesheet" href="/static/index.css">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="content">
+                <h1>LocalShare - Partager</h1>
+                
+                <form action="/uploadfile" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" multiple/>
+
+                    <br />
+                    <input type="submit" value="Envoyer">
+                </form>
+			</div>
+		</div>
+	</body>
+</html>
