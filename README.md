@@ -1,4 +1,5 @@
 # localodo
+[![NPM](https://nodei.co/npm/localodo.png?downloads=true&stars=true)](https://nodei.co/npm/localodo/)  
 Localodo est un outil qui est là pour vous permettre de partager très facilement des fichiers sur votre réseau local.
 
 ## Installation et utilisation
