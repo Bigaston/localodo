@@ -1,12 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-if(!fs.existsSync(path.join(__dirname, "../export"))) {
-    fs.mkdirSync(path.join(__dirname, "../export"))
-}
-
-if(!fs.existsSync(path.join(__dirname, "../import"))) {
-    fs.mkdirSync(path.join(__dirname, "../import"))
+if(!fs.existsSync(path.join(__dirname, "../files"))) {
+    fs.mkdirSync(path.join(__dirname, "../files"))
 }
 
 console.log("Fichiers de bases créés")

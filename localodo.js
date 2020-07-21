@@ -55,8 +55,7 @@ inquirer
 		IP = ip_tab[index]; 
 
 		if (answers.open_folder) {
-			child.exec('start "" "' + path.join(__dirname, "export") + '"');
-			child.exec('start "" "' + path.join(__dirname, "import") + '"');
+			child.exec('start "" "' + path.join(__dirname, "files") + '"');
 		}
 
 		getPort().then(port => {
@@ -79,9 +78,9 @@ function startServ(open_web, port) {
 		}
 	})
 
-	app.get("/export/:file", (req, res) => {
-		if (fs.existsSync(path.join(__dirname, "export/" + req.params.file))) {
-			res.sendFile(path.join(__dirname, "export/" + req.params.file))
+	app.get("/files/:file", (req, res) => {
+		if (fs.existsSync(path.join(__dirname, "files/" + req.params.file))) {
+			res.sendFile(path.join(__dirname, "files/" + req.params.file))
 		} else {
 			res.status(404).send("Not found")
 		}
@@ -105,10 +104,10 @@ function startServ(open_web, port) {
 	})
 	
 	app.get("/download", (req, res) => {
-		let files = fs.readdirSync(path.join(__dirname, "export"));
+		let files = fs.readdirSync(path.join(__dirname, "files"));
 		let render_obj = {files: []};
 		files.forEach((f) => {
-			render_obj.files.push({link: "/export/" + encodeURI(f), name: f});
+			render_obj.files.push({link: "/files/" + encodeURI(f), name: f});
 		})
 
 		let template = fs.readFileSync(path.join(__dirname, "./web/download.mustache"), "utf8");
@@ -122,7 +121,7 @@ function startServ(open_web, port) {
 
 	app.post('/uploadfile', upload.array('file'), function (req, res, next) {
 		req.files.forEach(f => {
-			fs.writeFileSync(path.join(__dirname, "import/" + f.originalname), f.buffer);
+			fs.writeFileSync(path.join(__dirname, "files/" + f.originalname), f.buffer);
 		})
 
 		res.sendFile(path.join(__dirname, "web/done.html"));
