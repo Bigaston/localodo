@@ -4,7 +4,9 @@
   "description": "Partagez des fichiers sur votre réseau local",
   "main": "localshare.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init_file": "node ./cli/init_file.js",
+    "postinstall": "npm run init_file"
   },
   "repository": {
     "type": "git",
