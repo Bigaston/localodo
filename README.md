@@ -12,3 +12,6 @@ Le logiciel va automatiquement vous demander quelle est la bonne interface rése
 Après ça, vous aurez simplement à déposer les fichiers que vous voulez envoyer sur votre téléphone dans le dossier `export`, scanner le QRCode correspondant, et vous pouvez tous les télécharger!
 
 Pour le partage inverse, utilisez l'autre QRCode, et vos fichiers envoyé seront dans le dossier `import`.
+
+## Crédit
+Outil développé par Bigaston : [🐦 Twitter](https://twitter.com/Bigaston) | [💸 uTip](https://utip.io/Bigaston)
