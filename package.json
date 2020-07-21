@@ -1,5 +1,5 @@
 {
-  "name": "local-share",
+  "name": "localshare",
   "version": "1.0.0",
   "description": "Partagez des fichiers sur votre réseau local",
   "main": "localshare.js",
@@ -8,19 +8,22 @@
     "init_file": "node ./cli/init_file.js",
     "postinstall": "npm run init_file"
   },
+  "bin": {
+    "localshare": "./localshare.js"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bigaston/local-share.git"
+    "url": "git+https://github.com/Bigaston/localshare.git"
   },
   "author": "Bigaston",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Bigaston/local-share/issues"
+    "url": "https://github.com/Bigaston/localshare/issues"
   },
-  "homepage": "https://github.com/Bigaston/local-share#readme",
+  "homepage": "https://github.com/Bigaston/localshare#readme",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "get-port": "^5.1.1",
     "inquirer": "^7.3.2",
     "multer": "^1.4.2",
     "mustache": "^4.0.1",

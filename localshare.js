@@ -1,4 +1,5 @@
-require("dotenv").config()
+#! /usr/bin/env node
+
 const express = require('express')
 const QRCode = require('qrcode')
 const open = require('open');
@@ -9,7 +10,8 @@ const mustache = require("mustache")
 const fs = require("fs");
 const path = require("path");
 const multer  = require('multer')
-var upload = multer()
+const child = require('child_process');
+const getPort = require('get-port');
 
 let ip_tab = [];
 let ip_name = [];
@@ -34,32 +36,52 @@ inquirer
 			name: "ip",
 			message: "Choisissez la bonne adresse IP :",
 			choices: ip_name
+		},
+		{
+			type: "confirm",
+			name: "open_folder",
+			message: "Ouvrir les dossiers de partage?",
+			default: false
+		},
+		{
+			type: "confirm",
+			name: "open_web",
+			message: "Ouvrir la fenêtre dans le navigateur?",
+			default: false
 		}
   	])
   	.then(answers => {
 		let index = ip_name.indexOf(answers.ip);
 		IP = ip_tab[index]; 
 
-		startServ();
+		if (answers.open_folder) {
+			child.exec('start "" "' + path.join(__dirname, "export") + '"');
+			child.exec('start "" "' + path.join(__dirname, "import") + '"');
+		}
+
+		getPort().then(port => {
+			startServ(answers.open_web, port);
+		})
   	})
   	.catch(error => {
 		console.log(error)
   	});
 
-function startServ() {
+function startServ(open_web, port) {
 	const app = express()
+	var upload = multer()
 
 	app.use("/static", express.static("web/static"))
 	app.use("/export", express.static("export"))
 
 	app.get("/", (req, res) => {
-		QRCode.toDataURL(`http://${IP}:${process.env.PORT}/download`, function (err, url_download) {
-			QRCode.toDataURL(`http://${IP}:${process.env.PORT}/download`, function (err, url_share) {
+		QRCode.toDataURL(`http://${IP}:${port}/download`, function (err, url_download) {
+			QRCode.toDataURL(`http://${IP}:${port}/upload`, function (err, url_share) {
 				let render_obj = {
 					qrcode_download: url_download,
-					download_addr: `http://${IP}:${process.env.PORT}/download`,
+					download_addr: `http://${IP}:${port}/download`,
 					qrcode_share: url_share,
-					share_addr: `http://${IP}:${process.env.PORT}/upload`
+					share_addr: `http://${IP}:${port}/upload`
 				}
 	
 				let template = fs.readFileSync(path.join(__dirname, "./web/index.mustache"), "utf8");
@@ -90,11 +112,14 @@ function startServ() {
 			fs.writeFileSync(path.join(__dirname, "import/" + f.originalname), f.buffer);
 		})
 
-		res.redirect("/")
+		res.sendFile(path.join(__dirname, "web/done.html"));
 	})
 	
-	app.listen(process.env.PORT, IP, () => {
-		console.log(`Server lancé sur le port ${process.env.PORT}`)
-		open(`http://${IP}:${process.env.PORT}`)
+	app.listen(port, IP, () => {
+		console.log(`Server lancé sur le port ${port}`)
+
+		if (open_web) {
+			open(`http://${IP}:${port}`);
+		}
 	})
 }
