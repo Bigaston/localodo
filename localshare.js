@@ -8,6 +8,7 @@ const ifaces = os.networkInterfaces();
 const mustache = require("mustache")
 const fs = require("fs");
 const path = require("path");
+const { url } = require("inspector");
 
 let ip_tab = [];
 let ip_name = [];
@@ -64,7 +65,15 @@ function startServ() {
 	})
 	
 	app.get("/download", (req, res) => {
-		res.send("Bonsoir");
+		let files = fs.readdirSync(path.join(__dirname, "export"));
+		let render_obj = {files: []};
+		files.forEach((f) => {
+			render_obj.files.push({link: "/export/" + encodeURI(f), name: f});
+		})
+
+		let template = fs.readFileSync(path.join(__dirname, "./web/download.mustache"), "utf8");
+
+		res.send(mustache.render(template, render_obj));
 	})
 	
 	app.listen(process.env.PORT, IP, () => {
