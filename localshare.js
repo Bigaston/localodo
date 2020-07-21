@@ -2,36 +2,48 @@ require("dotenv").config()
 const express = require('express')
 const QRCode = require('qrcode')
 const open = require('open');
+const inquirer = require('inquirer');
+const os = require('os');
+const ifaces = os.networkInterfaces();
 
-const app = express()
+let ip_tab = [];
+let ip_name = [];
+let IP;
 
-var os = require('os');
-var ifaces = os.networkInterfaces();
-
+// Récupération des addresses IP
 Object.keys(ifaces).forEach(function (ifname) {
-  var alias = 0;
+    ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+			return;
+        }
 
-  ifaces[ifname].forEach(function (iface) {
-    if ('IPv4' !== iface.family || iface.internal !== false) {
-      // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
-      return;
-    }
-
-    if (alias >= 1) {
-      // this single interface has multiple ipv4 addresses
-      console.log(ifname + ':' + alias, iface.address);
-    } else {
-      // this interface has only one ipv4 adress
-      console.log(ifname, iface.address);
-    }
-    ++alias;
-  });
+		ip_tab.push(iface.address);
+		ip_name.push(ifname + " : " + iface.address);
+    });
 });
 
-const IP = "192.168.0.11";
-startServ()
+inquirer
+	.prompt([
+		{
+			type: "list",
+			name: "ip",
+			message: "Choisissez la bonne adresse IP :",
+			choices: ip_name
+		}
+  	])
+  	.then(answers => {
+		let index = ip_name.indexOf(answers.ip);
+		IP = ip_tab[index]; 
+
+		startServ();
+  	})
+  	.catch(error => {
+		console.log(error)
+  	});
 
 function startServ() {
+	const app = express()
+
 	app.get("/", (req, res) => {
 		QRCode.toDataURL(`http://${IP}:${process.env.PORT}/salut`, function (err, url) {
 			res.send(`<img src="${url}" alt="QRCode" /><br/><p>http://${IP}:${process.env.PORT}</p>`)
@@ -39,7 +51,6 @@ function startServ() {
 	})
 	
 	app.get("/salut", (req, res) => {
-		console.log("Salut")
 		res.send("Bonsoir");
 	})
 	
