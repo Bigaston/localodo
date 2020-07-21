@@ -71,8 +71,21 @@ function startServ(open_web, port) {
 	const app = express()
 	var upload = multer()
 
-	app.use("/static", express.static("web/static"))
-	app.use("/export", express.static("export"))
+	app.get("/static/:file", (req, res) => {
+		if (fs.existsSync(path.join(__dirname, "web/static/" + req.params.file))) {
+			res.sendFile(path.join(__dirname, "web/static/" + req.params.file))
+		} else {
+			res.status(404).send("Not found")
+		}
+	})
+
+	app.get("/export/:file", (req, res) => {
+		if (fs.existsSync(path.join(__dirname, "export/" + req.params.file))) {
+			res.sendFile(path.join(__dirname, "export/" + req.params.file))
+		} else {
+			res.status(404).send("Not found")
+		}
+	})
 
 	app.get("/", (req, res) => {
 		QRCode.toDataURL(`http://${IP}:${port}/download`, function (err, url_download) {

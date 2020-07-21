@@ -1,6 +1,6 @@
 {
   "name": "localodo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Partagez des fichiers sur votre réseau local",
   "main": "localodo.js",
   "scripts": {
