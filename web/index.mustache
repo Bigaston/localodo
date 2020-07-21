@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Local Share</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+		<link rel="stylesheet" href="/static/style.css">
+		<link rel="stylesheet" href="/static/index.css">
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="content">
+				<h1>LocalShare</h1>
+				<p>Un serveur web a été lancé sur votre réseau local. Scannez le QRCode si dessous ou rendez-vous sur le lien pour accèder à vos fichiers.</p>
+		
+				<img id="qrcode" src="{{qrcode_url}}" atl="QRCode" />
+				<p id="addr"><a alt="Aller sur le partage de fichiers" href="{{share_addr}}">{{share_addr}}</a></p>
+			</div>
+		</div>
+	</body>
+</html>

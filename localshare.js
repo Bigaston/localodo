@@ -5,6 +5,9 @@ const open = require('open');
 const inquirer = require('inquirer');
 const os = require('os');
 const ifaces = os.networkInterfaces();
+const mustache = require("mustache")
+const fs = require("fs");
+const path = require("path");
 
 let ip_tab = [];
 let ip_name = [];
@@ -44,13 +47,23 @@ inquirer
 function startServ() {
 	const app = express()
 
+	app.use("/static", express.static("web/static"))
+	app.use("/export", express.static("export"))
+
 	app.get("/", (req, res) => {
-		QRCode.toDataURL(`http://${IP}:${process.env.PORT}/salut`, function (err, url) {
-			res.send(`<img src="${url}" alt="QRCode" /><br/><p>http://${IP}:${process.env.PORT}</p>`)
+		QRCode.toDataURL(`http://${IP}:${process.env.PORT}/download`, function (err, url) {
+			let render_obj = {
+				qrcode_url: url,
+				share_addr: `http://${IP}:${process.env.PORT}/download`
+			}
+
+			let template = fs.readFileSync(path.join(__dirname, "./web/index.mustache"), "utf8");
+
+			res.send(mustache.render(template, render_obj));
 		})
 	})
 	
-	app.get("/salut", (req, res) => {
+	app.get("/download", (req, res) => {
 		res.send("Bonsoir");
 	})
 	
